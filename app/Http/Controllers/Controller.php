@@ -10,4 +10,16 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    public function setSuccessMessage($message): void
+    {
+        session()->flash('message', $message);
+        session()->flash('type', 'success');
+    }
+
+    public function setErrorMessage($message): void
+    {
+        session()->flash('message', $message);
+        session()->flash('type', 'danger');
+    }
 }

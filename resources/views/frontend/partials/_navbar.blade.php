@@ -14,8 +14,31 @@
                                 Laptop
                             </a>
                         </li>
-                        <li><a href="#" class="text-white">Login</a></li>
-                        <li><a href="#" class="text-white">Register</a></li>
+                        @auth()
+                            <li>
+                                <a href="{{ route('profile') }}" class="text-white">
+                                    Profile ({{ optional(auth()->user())->full_name }})
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('logout') }}" class="text-white">
+                                    Logout
+                                </a>
+                            </li>
+                        @endauth
+
+                        @guest()
+                            <li>
+                                <a href="{{ route('login') }}" class="text-white">
+                                    Login
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('register') }}" class="text-white">
+                                    Register
+                                </a>
+                            </li>
+                        @endguest
                     </ul>
                 </div>
             </div>
