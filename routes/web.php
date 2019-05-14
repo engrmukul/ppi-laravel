@@ -11,4 +11,5 @@
 |
 */
 
-Route::get('/', 'HomeController@showHome');
+Route::get('/', 'HomeController@showHome')->name('home');
+Route::get('/category/{slug}', 'HomeController@showProductsByCategory')->name('category');
