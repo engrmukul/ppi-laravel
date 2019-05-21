@@ -22,6 +22,10 @@ Route::post('/register', 'AuthController@processRegister');
 
 Route::get('/dashboard', 'DashboardController@showDashboard')->name('dashboard');
 Route::get('/profile', 'AuthController@showProfile')->name('profile');
-Route::get('/logout', 'AuthController@logout')->name('logout');
+Route::post('/profile', 'AuthController@updateProfile');
+
+Route::post('/password', 'AuthController@updatePassword')->name('password.update');
 
 Route::get('/orders', 'OrdersController@index')->name('orders.index');
+
+Route::get('/logout', 'AuthController@logout')->name('logout');

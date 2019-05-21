@@ -68,7 +68,56 @@ class AuthController extends Controller
 
     public function showProfile()
     {
-        return view('backend.profile');
+        $data['user'] = auth()->user();
+
+        return view('backend.profile', $data);
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $user = optional(auth()->user());
+
+        $this->validate($request, [
+            'full_name'    => 'required',
+            'email'        => 'required|email|unique:users,email,'.$user->id,
+            'phone_number' => 'required|min:6|max:13|unique:users,phone_number, '.$user->id,
+            'address'      => 'required',
+        ]);
+
+        $inputs = $request->except(['_token']);
+        $user->update($inputs);
+        $this->setSuccessMessage('Profile updated.');
+
+        return redirect()->back();
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $user = optional(auth()->user());
+
+        $this->validate($request, [
+            'old_password' => 'required',
+            'password'     => 'required|min:6|confirmed',
+        ]);
+
+        $credentials = [
+            'email'    => $user->email,
+            'password' => $request->input('old_password'),
+        ];
+
+        if (auth()->attempt($credentials)) {
+            $user->update([
+                'password' => bcrypt($request->input('password')),
+            ]);
+
+            $this->setSuccessMessage('Password changed.');
+
+            return redirect()->back();
+        }
+
+        $this->setErrorMessage('Old password is wrong.');
+
+        return redirect()->back();
     }
 
     public function logout()
