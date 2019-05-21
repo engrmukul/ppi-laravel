@@ -66,6 +66,11 @@ class AuthController extends Controller
         return redirect()->back();
     }
 
+    public function showProfile()
+    {
+        return view('backend.profile');
+    }
+
     public function logout()
     {
         auth()->logout();
