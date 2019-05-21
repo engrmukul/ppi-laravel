@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
+
 class HomeController extends Controller
 {
     public function showHome()
     {
-        return view('frontend.home');
+        $data['products'] = Product::select(['id', 'slug', 'name', 'price'])
+            ->paginate(9);
+
+        return view('frontend.home', $data);
     }
 
     public function showProductsByCategory($slug)
